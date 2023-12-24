@@ -53,5 +53,23 @@ namespace BlogApp.DAL.Repositories.Implementations
             }
             return await data.FirstOrDefaultAsync(c => c.Id == id);
         }
+        public async Task Create(T entity)
+        {
+            await table.AddAsync(entity);
+        }
+
+        public void Delete(T entity)
+        {
+            table.Remove(entity);
+        }
+        public void Update(T entity)
+        {
+            table.Update(entity);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _db.SaveChangesAsync();
+        }
     }
 }

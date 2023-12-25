@@ -53,7 +53,7 @@ namespace BlogApp.DAL.Repositories.Implementations
             }
             return await data.FirstOrDefaultAsync(c => c.Id == id);
         }
-        public async Task Create(T entity)
+        public async Task CreateAsync(T entity)
         {
             await table.AddAsync(entity);
         }
@@ -67,9 +67,9 @@ namespace BlogApp.DAL.Repositories.Implementations
             table.Update(entity);
         }
 
-        public async Task SaveChangesAsync()
+        public async Task<int> SaveChangesAsync()
         {
-            await _db.SaveChangesAsync();
+           return await _db.SaveChangesAsync();
         }
     }
 }

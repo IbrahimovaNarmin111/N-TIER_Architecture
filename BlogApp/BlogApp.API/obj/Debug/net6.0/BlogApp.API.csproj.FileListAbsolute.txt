@@ -72,3 +72,6 @@ C:\Users\hp\OneDrive\Desktop\N-TIER_Architecture\BlogApp\BlogApp.API\obj\Debug\n
 C:\Users\hp\OneDrive\Desktop\N-TIER_Architecture\BlogApp\BlogApp.API\obj\Debug\net6.0\ref\BlogApp.API.dll
 C:\Users\hp\OneDrive\Desktop\N-TIER_Architecture\BlogApp\BlogApp.API\bin\Debug\net6.0\Humanizer.dll
 C:\Users\hp\OneDrive\Desktop\N-TIER_Architecture\BlogApp\BlogApp.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\hp\OneDrive\Desktop\N-TIER_Architecture\BlogApp\BlogApp.API\bin\Debug\net6.0\FluentValidation.dll
+C:\Users\hp\OneDrive\Desktop\N-TIER_Architecture\BlogApp\BlogApp.API\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
+C:\Users\hp\OneDrive\Desktop\N-TIER_Architecture\BlogApp\BlogApp.API\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll

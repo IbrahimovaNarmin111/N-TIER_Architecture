@@ -1,4 +1,5 @@
 ﻿using BlogApp.Business.DTOs.CategoryDTO;
+using BlogApp.Business.Exceptions.Category;
 using BlogApp.Business.Services.Interfaces;
 using BlogApp.Core.Entities;
 using BlogApp.DAL.Repositories.Interfaces;
@@ -30,19 +31,20 @@ namespace BlogApp.Business.Services.Implementations
         {
            return await _repository.GetByIdAsync(id);   
         }
-        public async Task<Category> Create(CreateCategoryDto categorydto)
+        public async Task<bool> CreateAsync(CreateCategoryDto categorydto)
         {
-            if (categorydto == null) throw new Exception();
-            Category category = new Category()
-            {
-                Name = categorydto.Name,
-                LogoUrl=categorydto.LogoUrl,
-                Image=categorydto.Image,
-            };
+            if (categorydto == null) throw new CategoryNotNullException();
+            Category category = new Category();
+            category.Name= categorydto.Name;
+           
 
-            await _repository.Create(category);
-            await _repository.SaveChangesAsync();
-            return category;
+            await _repository.CreateAsync(category);
+           var result= await _repository.SaveChangesAsync();
+           if(result>0)
+            {
+                return true;
+            }
+            return false;
         }
 
         public async Task<Category> Update(int id, UpdateCategoryDto categorydto)
@@ -51,8 +53,6 @@ namespace BlogApp.Business.Services.Implementations
             var categories = await _repository.GetByIdAsync(id);
             if (categories == null) throw new Exception();
             categories.Name = categorydto.Name;
-            categories.LogoUrl = categorydto.LogoUrl;
-            categories.Image = categorydto.Image;
             _repository.Update(categories);
             await _repository.SaveChangesAsync();
             return categories;

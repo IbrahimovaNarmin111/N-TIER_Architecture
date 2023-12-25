@@ -14,9 +14,9 @@ namespace BlogApp.DAL.Repositories.Interfaces
         DbSet<T> table { get; }
         Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>>? expression = null, Expression<Func<T, object>>? orderbyExpression = null, bool isDesting = false, params string[]? includes);
         Task<T> GetByIdAsync(int id, params string[]? includes);
-        Task Create(T entity);
+        Task CreateAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
-        Task SaveChangesAsync();
+        Task<int> SaveChangesAsync();
     }
 }

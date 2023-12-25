@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace BlogApp.Business.DTOs.CategoryDTO
 {
-    public record UpdateCategoryDto
+    public record CategoryDetailDto
     {
-         public int Id { get; set; }
-         public string Name { get; set; }
-       
+        public string Name { get; set; }    
     }
 }

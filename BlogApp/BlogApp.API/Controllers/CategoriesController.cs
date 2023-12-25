@@ -34,8 +34,11 @@ namespace BlogApp.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] CreateCategoryDto categoryDto)
         {
-            Category category = await _service.Create(categoryDto);
-            return StatusCode(StatusCodes.Status201Created, category);
+            if(await _service.CreateAsync(categoryDto))
+            {
+                return Ok();
+            }
+            return BadRequest();            
         }
         [HttpPut]
         public async Task<IActionResult> Update(int id, UpdateCategoryDto categoryDto)

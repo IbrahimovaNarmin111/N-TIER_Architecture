@@ -1,4 +1,5 @@
-﻿using BlogApp.Business.DTOs.CategoryDTO;
+﻿using AutoMapper;
+using BlogApp.Business.DTOs.CategoryDTO;
 using BlogApp.Business.Exceptions.Category;
 using BlogApp.Business.Services.Interfaces;
 using BlogApp.Core.Entities;
@@ -15,21 +16,27 @@ namespace BlogApp.Business.Services.Implementations
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _repository;
+        private readonly IMapper _mapper;
 
-        public CategoryService(ICategoryRepository repository)
+        public CategoryService(ICategoryRepository repository,IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<ICollection<Category>> GetAllAsync()
+        public async Task<ICollection<CategoryListItemDto>> GetAllAsync()
         {
-            var categories=await _repository.GetAllAsync();
-            return await categories.ToListAsync();
+            IQueryable<Category> result=await _repository.GetAllAsync();    
+            var categories=_mapper.Map<ICollection<CategoryListItemDto>>(result);
+            return categories;
         }
 
         public async Task<Category> GetByIdAsync(int id)
         {
-           return await _repository.GetByIdAsync(id);   
+            Category category=await _repository.GetByIdAsync(id);
+            if (category == null) throw new Exception("Not found");
+
+            return category;
         }
         public async Task<bool> CreateAsync(CreateCategoryDto categorydto)
         {
@@ -47,24 +54,25 @@ namespace BlogApp.Business.Services.Implementations
             return false;
         }
 
-        public async Task<Category> Update(int id, UpdateCategoryDto categorydto)
+        public async Task Update(int id, UpdateCategoryDto categorydto)
         {
-            if (categorydto == null) throw new Exception();
-            var categories = await _repository.GetByIdAsync(id);
-            if (categories == null) throw new Exception();
-            categories.Name = categorydto.Name;
-            _repository.Update(categories);
+            Category Category = await _repository.GetByIdAsync(id);
+            if (Category == null) throw new Exception("Not Found");
+            Category = _mapper.Map(categorydto, Category);
+            _repository.Update(Category);
             await _repository.SaveChangesAsync();
-            return categories;
         }
 
-        public async Task<Category> DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            var categories = await _repository.GetByIdAsync(id);
-            if (categories == null) throw new Exception();
-            _repository.Delete(categories);
+            Category Category = await _repository.GetByIdAsync(id);
+
+            if (Category == null) throw new Exception("Category not found");
+
+            _repository.Delete(Category);
             await _repository.SaveChangesAsync();
-            return categories;
         }
+
+        
     }
 }

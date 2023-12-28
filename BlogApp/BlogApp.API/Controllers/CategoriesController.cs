@@ -44,9 +44,9 @@ namespace BlogApp.API.Controllers
         public async Task<IActionResult> Update(int id, UpdateCategoryDto categoryDto)
         {
 
-            Category category = await _service.Update(id, categoryDto);
-
-            return StatusCode(StatusCodes.Status202Accepted, category);
+            if (id <= 0) return StatusCode(StatusCodes.Status400BadRequest);
+            await _service.Update(id, categoryDto);
+            return Ok();
         }
         [HttpDelete]
         [Route("{id}")]

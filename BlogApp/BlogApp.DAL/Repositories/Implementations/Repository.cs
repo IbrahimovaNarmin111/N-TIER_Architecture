@@ -23,7 +23,7 @@ namespace BlogApp.DAL.Repositories.Implementations
 
         public async Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>>? expression = null, Expression<Func<T, object>>? orderbyExpression = null, bool isDesting = false, params string[]? includes)
         {
-            IQueryable<T> query = table;
+            IQueryable<T> query = table.Where(e => e.IsDeleted == false);
             if (expression is not null)
             {
                 query = query.Where(expression);
@@ -43,15 +43,8 @@ namespace BlogApp.DAL.Repositories.Implementations
         }
         public async Task<T> GetByIdAsync(int id, params string[]? includes)
         {
-            IQueryable<T> data = table;
-            if (includes is not null)
-            {
-                for (int i = 0; i < includes.Length; i++)
-                {
-                    data = data.Include(includes[i]);
-                }
-            }
-            return await data.FirstOrDefaultAsync(c => c.Id == id);
+            
+            return await table.FirstOrDefaultAsync(c => c.Id == id);
         }
         public async Task CreateAsync(T entity)
         {
@@ -71,5 +64,7 @@ namespace BlogApp.DAL.Repositories.Implementations
         {
            return await _db.SaveChangesAsync();
         }
+
+       
     }
 }

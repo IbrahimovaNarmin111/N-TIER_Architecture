@@ -15,6 +15,7 @@ namespace BlogApp.DAL.Repositories.Interfaces
         Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>>? expression = null, Expression<Func<T, object>>? orderbyExpression = null, bool isDesting = false, params string[]? includes);
         Task<T> GetByIdAsync(int id, params string[]? includes);
         Task CreateAsync(T entity);
+        
         void Update(T entity);
         void Delete(T entity);
         Task<int> SaveChangesAsync();
